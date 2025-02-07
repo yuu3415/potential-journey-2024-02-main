@@ -1,0 +1,58 @@
+@charset "utf-8";
+h1{
+    color: orange;
+    text-shadow: 0px 0px 20px orange;
+}
+#midasi{
+    text-align: right;
+    text-decoration: none;
+    color: white;
+}
+span{
+    background-color: orange;
+}
+.rank{
+    border-style: dashed;
+    border-width: 3px;
+    border-color: orange;
+    border-radius: 5px;
+
+    padding: 5px 20px 0px;
+}
+.menu{
+    background-color: orange;
+    border-radius: 5px;
+    
+    padding: 5px 20px 0px;
+}
+#back{
+    text-align: right;
+}
+.date{
+    border-style: solid;
+    border-width: 3px;
+    border-color: orange;
+    border-radius: 5px;
+
+    padding: 5px 20px 0px;
+
+}
+th{
+    background-color: silver;
+    border: 1px solid black;
+}
+td{
+    border: 1px solid black;
+}
+.fe{
+    padding: 5px 20px 0px;
+
+}
+h3{
+    text-decoration: underline 3px;
+    text-shadow: 0px 0px 20px orange;
+}
+.white{
+    text-decoration: none;
+    color: white;
+}

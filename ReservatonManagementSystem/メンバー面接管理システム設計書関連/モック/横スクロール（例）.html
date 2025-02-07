@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>部分的な横スクロール</title>
+  <style>
+    .scroll-container {
+      width: 300px; /* スクロールするコンテナの幅 */
+      overflow-x: scroll; /* 横方向にスクロールできるようにする */
+      white-space: nowrap; /* 子要素が横に並ぶようにする */
+    }
+
+    .scroll-content {
+      display: inline-block; /* 子要素を横に並べる */
+      width: 100px; /* 各子要素の幅 */
+      height: 100px; /* 各子要素の高さ */
+      background-color: #ccc;
+      margin-right: 10px; /* 子要素間の間隔 */
+    }
+  </style>
+</head>
+<body>
+
+<div class="scroll-container">
+  <div class="scroll-content">1</div>
+  <div class="scroll-content">2</div>
+  <div class="scroll-content">3</div>
+  <!-- 他のコンテンツを追加 -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // 横スクロールの速度を設定
+    var scrollSpeed = 10;
+
+    // 左右にスクロールする関数
+    function startScroll() {
+      var container = $(".scroll-container");
+      container.scrollLeft(container.scrollLeft() + 1);
+    }
+
+    // スクロールを開始
+    var scrollInterval = setInterval(startScroll, scrollSpeed);
+
+    // マウスがコンテナ上にある場合はスクロールを停止
+    $(".scroll-container").hover(
+      function() {
+        clearInterval(scrollInterval);
+      },
+      function() {
+        scrollInterval = setInterval(startScroll, scrollSpeed);
+      }
+    );
+  });
+</script>
+
+</body>
+</html>

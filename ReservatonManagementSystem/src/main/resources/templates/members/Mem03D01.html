@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"layout:decorate="~{layout/layout}"
+lang="ja"
+>
+<head>
+   <meta charset="UTF-8" th:remove="tag">
+  <title>メンバー面談管理システム</title>
+</head>
+<body>
+
+ <!-- サイドバーの表示 -->
+  <div layout:fragment="sidebar"
+    th:replace="~{fragments/sidebar :: sidebar}">
+  </div>
+  
+  <!-- コンテンツの配置 -->
+   <main layout:fragment="content" 
+  	class="offcanvas-outside bg-light">
+        <div class="container-fluid">
+            <!-- トグルボタン -->
+            <div>
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<div class="container-fluid">
+				<button class="navbar-toggler" type="button"
+					data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+					aria-controls="offcanvasScrolling" aria-expanded="false"
+					aria-label="Toggle offcanvas">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</nav>
+	</div>
+
+            <!-- 会員情報更新フォーム -->
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h6 class="text-navy my-2">会員情報更新</h6>
+                        </div>
+                        <div class="card-body">
+							<form th:action="@{/update/search}" th:object="${member}" method="post" class="row">
+							<input type="hidden" name="_csrf" value="Ydl_dbmraIQblTluGnEc9ymSUfRwr9W6OJay69chH3igErW3BbpHTY6ZW7A2pAxdKlwoxUvwfJVIyuaXCKaL2uUZe0jDdITU"/>
+                                <div class="col-auto">
+                                    <label for="memberCode" class="form-label">会員番号</label>
+                                    <input type="text" class="form-control" id="memberCode" name="memberCode" style="width: 100px;" value=""
+                                    		th:field="*{memberCode}">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary mt-4">検索</button>
+                                </div>
+                     
+                      <span sec:authorize="isAuthenticated()" class="text-white mx-2">
+							こんにちは、<span sec:authentication="name">ユーザー</span>さん
+						</span>
+                    
+                        
+                           <!-- エラーメッセージを表示する要素 -->
+                        <div >
+                        	<br>
+                        		<p th:if="${#fields.hasErrors()}" class="alert alert-danger" role="alert">
+                        			<span th:if="${#fields.hasErrors('memberCode')}">会員番号は必須入力です。半角数値で入力してください</span>
+                        	
+                        </div>
+                                
+                            </form>
+                            <div th:if="${searchResultBoolean == false}"  th:object="${searchResultBoolean}">
+                  						<p class="alert alert-danger" role="alert">該当の会員は存在しません</p>
+                  				</div>
+                        </div>
+						
+						
+                    </div>
+                </div>
+            </div>
+
+            <!-- 検索結果表示エリア（初期状態では非表示） -->
+			<!-- 検索結果表示エリア -->
+            <div class="row mt-4" th:if="${searchResult != null}"  th:object="${searchResult}">
+      
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h6 class="text-navy my-2">検索結果</h6>
+                        </div>
+                        <!-- エラーメッセージを表示する要素 -->
+						<div class="alert alert-success mt-3" th:if="${resultMsg != null}" th:object="${resultMsg}">
+						    <p>会員情報が正常に更新されました。</p>
+						    
+						</div>
+                        <div class="card-body">
+                            <form action="/update/update" th:object="${searchResult}" method="post">
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">								
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="memberCode" class="form-label">会員番号</label>
+                                        <p class="form-control-static" th:text="${searchResult.memberCode}"></p>
+                                        <input type="hidden" id="memberCode" th:field="*{memberCode}" name="memberCode" th:value="${searchResult.memberCode}" />
+                                        
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="address" class="form-label">住所</label>
+                                        <input type="text" class="form-control" th:field="*{address}" id="address" name="address" th:value="${searchResult.address}">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="firstName" class="form-label">姓</label>
+                                        <input type="text" class="form-control" th:field="*{firstName}"  required name="firstName" th:value="${searchResult.firstName}">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Eメール</label>
+                                        <input type="email" class="form-control" th:field="*{email}"  required name="email" th:value="${searchResult.email}">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="lastName" class="form-label">名</label>
+                                        <input type="text" class="form-control" th:field="*{lastName}"  required name="lastName" th:value="${searchResult.lastName}">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="registrationDate" class="form-label">登録日時</label>
+                                        <p class="form-control-static"></p>
+                                        <input type="hidden" id="registrationDate"  name="registrationDate" th:value="${searchResult.registrationDate}" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phoneNumber" class="form-label">電話番号</label>
+                                        <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}" name="phoneNumber" th:value="${searchResult.phoneNumber}">
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="updateDate" class="form-label">更新日時</label>
+                                        <input type="hidden" id="updateDate" name="updateDate" th:value="${searchResult.updateDate}" />
+                                    </div>
+                                   
+                                     <div class="col-md-6 mb-3">
+                                        <label for="birthdate" class="form-label">生年月日</label>
+                                        <input type="date" class="form-control" id="birthdate" th:field="*{birthdate}" name="birthdate" th:value="${searchResult.birthdate}">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                              			<button type="submit" class="btn btn-primary mt-4">更新</button>
+
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

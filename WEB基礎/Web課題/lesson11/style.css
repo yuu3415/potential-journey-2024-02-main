@@ -1,0 +1,8 @@
+@charset "utf-8";
+
+div{
+    border: groove thick blue;
+    width:fit-content;
+    padding: auto;
+    margin: auto;
+}

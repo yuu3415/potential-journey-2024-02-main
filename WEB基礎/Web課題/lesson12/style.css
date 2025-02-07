@@ -1,0 +1,11 @@
+@charset "utf-8";
+h1{
+    text-align: center;
+    background-color: gray;
+}
+h2{
+    text-decoration: underline;
+}
+h3{
+    text-shadow: 2px 2px 4px black;
+}

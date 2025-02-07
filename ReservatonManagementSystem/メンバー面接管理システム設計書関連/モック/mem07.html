@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap-icons.css" rel="stylesheet">
+  <link href="css/app.css" rel="stylesheet">
+
+  
+  <title>メンバー面談管理システム</title>
+  
+</head>
+<body>
+
+  <!-- サイドバーの配置 -->
+  <div class="offcanvas offcanvas-start"
+		data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+		id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+		<nav class="navbar-dark bg-image text-white h-100">
+
+			<div class="offcanvas-header">
+				<h4 class="offcanvas-title">
+					<a href="/" class="text-white"> <span
+						class="d-inline-block me-1" style="transform: rotate(-15deg)">
+							<i class="bi bi-credit-card-2-front-fill fs-3"></i>
+					</span> <span>会員情報更新</span>
+					</a>
+				</h4>
+			</div>
+
+			<div class="offcanvas-body pt-0">
+				<hr class="mt-1">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a href="/menu"
+						class="nav-link text-white"> <i class="bi bi-person-fill me-2"></i>トップ
+					</a></li>
+					<li class="nav-item"><a href="/logout"
+						class="nav-link text-white"> <i
+							class="bi bi-box-arrow-right me-2"></i>ログアウト
+					</a></li>
+					<!-- 新しく追加 -->
+					<li class="nav-item"><a href="/members/register/view"
+						class="nav-link text-white"> <i
+							class="bi bi-person-plus-fill me-2"></i>会員情報新規登録
+					</a></li>
+					<li class="nav-item"><a href="/members/search/view"
+						class="nav-link text-white"> <i
+							class="bi bi-person-check-fill me-2"></i>会員情報検索
+					</a></li>
+					<li class="nav-item"><a href="/members/update/view"
+						class="nav-link text-white"> <i class="bi bi-search me-2"></i>会員情報更新
+					</a></li>
+					<li class="nav-item"><a href="/members/search"
+						class="nav-link text-white"> <i class="bi bi-search me-2"></i>面談予約状況検索
+					</a></li>
+					<li class="nav-item"><a href="/members/search"
+						class="nav-link text-white"> <i class="bi bi-search me-2"></i>面談予約新規登録
+					</a></li>
+				</ul>
+
+				<hr>
+				<!-- 閉じるボタン(画面が小さい時に表示) -->
+				<div class="text-center d-lg-none">
+					<button type="button" class="btn-circle btn-light"
+						data-bs-dismiss="offcanvas" aria-label="Close">
+						<i class="bi bi-chevron-left"></i>
+					</button>
+				</div>
+			</div>
+		</nav>
+	</div>
+
+  <!-- コンテンツの配置 -->
+  <main class="offcanvas-outside bg-light">
+        <div class="container-fluid">
+            <!-- トグルボタン -->
+            <div>
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<div class="container-fluid">
+				<button class="navbar-toggler" type="button"
+					data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+					aria-controls="offcanvasScrolling" aria-expanded="false"
+					aria-label="Toggle offcanvas">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</nav>
+	</div>
+
+            <!-- 会員情報更新フォーム -->
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h6 class="text-navy my-2">会員情報更新</h6>
+                        </div>
+                        <div class="card-body">
+							<form action="/members/update/search" method="post" class="row"><input type="hidden" name="_csrf" value="Ydl_dbmraIQblTluGnEc9ymSUfRwr9W6OJay69chH3igErW3BbpHTY6ZW7A2pAxdKlwoxUvwfJVIyuaXCKaL2uUZe0jDdITU"/>
+                                <div class="col-auto">
+                                    <label for="memberCode" class="form-label">会員番号</label>
+                                    <input type="text" class="form-control" id="memberCode" name="memberCode" style="width: 100px;" value="11">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary mt-4">検索</button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- エラーメッセージを表示する要素 -->
+						
+                    </div>
+                </div>
+            </div>
+
+            <!-- 検索結果表示エリア（初期状態では非表示） -->
+			<!-- 検索結果表示エリア -->
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h6 class="text-navy my-2">検索結果</h6>
+                        </div>
+                        <!-- エラーメッセージを表示する要素 -->
+						
+                        <div class="card-body">
+                            <form action="/members/update/execute" method="post"><input type="hidden" name="_csrf" value="Ydl_dbmraIQblTluGnEc9ymSUfRwr9W6OJay69chH3igErW3BbpHTY6ZW7A2pAxdKlwoxUvwfJVIyuaXCKaL2uUZe0jDdITU"/>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="memberCode" class="form-label">会員番号</label>
+                                        <p class="form-control-static">11</p>
+                                        <input type="hidden" id="memberCode" name="memberCode" value="11" />
+                                        
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="address" class="form-label">住所</label>
+                                        <input type="text" class="form-control" id="address" name="address" value="東京都千代田区1-1-1">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="lastName" class="form-label">姓</label>
+                                        <input type="text" class="form-control" id="lastName" required name="lastName" value="岸田">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Eメール</label>
+                                        <input type="email" class="form-control" id="email" required name="email" value="taro.sato@example.com">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="firstName" class="form-label">名</label>
+                                        <input type="text" class="form-control" id="firstName" required name="firstName" value="総理">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="registrationDate" class="form-label">登録日時</label>
+                                        <p class="form-control-static"></p>
+                                        <input type="hidden" id="registrationDate" name="registrationDate" value="" />
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="phoneNumber" class="form-label">電話番号</label>
+                                        <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="">
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="updateDate" class="form-label">更新日時</label>
+                                        <p class="form-control-static">2024-01-24 16:21</p>
+                                        <input type="hidden" id="updateDate" name="updateDate" value="2024/01/24 16:21" />
+                                    </div>
+                                   
+                                     <div class="col-md-6 mb-3">
+                                        <label for="birthdate" class="form-label">生年月日</label>
+                                        <input type="date" class="form-control" id="birthdate" name="birthdate" value="">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                              			<button type="submit" class="btn btn-primary mt-4"><a href="mem08.html" style="color:#fff">更新</a></button>
+
+                                    </div>
+                                    
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

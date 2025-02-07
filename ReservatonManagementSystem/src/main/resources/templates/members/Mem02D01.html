@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layout}">
+<head>
+   <meta charset="UTF-8" th:remove="tag">
+  <title>メンバー面談管理システム</title>
+  
+</head>
+<body>
+
+ <!-- サイドバーの表示 -->
+  <div layout:fragment="sidebar"
+    th:replace="~{fragments/sidebar :: sidebar}">
+  </div>
+  
+  <main layout:fragment="content" 
+  	class="offcanvas-outside bg-light">
+  	
+  	   <!-- 会員情報検索フォーム -->
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h6 class="text-navy my-2">会員情報検索</h6>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/search/excecute}" th:object="${user}" method="post" class="row"> <!-- このuserはコントローラーに送る際の属性みたいなもの。コントローラーでは@ModelAttribute("user")で引数として受け取る   --> 
+                            <input type="hidden" name="_csrf" value="J-pcaZ5dxNLY42X-ZKz49YwqNGumk48bgIWopA7FIwnyrywPRtNsDftkoOD12wacVIHMzbgaGQqS8bk2suCckzf1FTmUyk1p"/>
+                                <div class="col-auto">
+                                    <label for="memberCode" class="form-label">会員番号</label>
+                                    <input type="text" class="form-control"  style="width: 100px;"  value=""
+                                    		 th:errorclass="is-invalid"  th:field="*{memberCode}">
+                                </div>
+                                <div class="col-auto">
+                                    <label for="firstName" class="form-label">姓</label>
+                                    <input type="text" class="form-control" id="firstName" style="width: 100px;" name="firstName" value="">
+                                </div>
+                                <div class="col-auto">
+                                    <label for="lastName" class="form-label">名</label>
+                                    <input type="text" class="form-control" id="lastName" style="width: 100px;" name="lastName" value="">
+                                </div>
+                                <div class="col-auto">
+                                    <label for="address" class="form-label">住所</label>
+                                    <input type="text" class="form-control" id="address" style="width: 400px;" name="address" value="">
+                                </div>
+                                <div class="col-auto">
+                                    <label for="phoneNumber" class="form-label">電話番号</label>
+                                    <input type="text" class="form-control" id="phoneNumber" style="width: 100px;" name="phoneNumber" value=""
+											 th:field="*{phoneNumber}">                               
+									 </div>
+                                <div class="col-auto">
+                                  <button type="submit" class="btn btn-primary mt-4">検索</button>
+                                </div>
+                                
+                                <!-- エラーメッセージを表示する要素 -->
+                        <div >
+                        	<br>
+                        		<p th:if="${#fields.hasErrors()}" class="alert alert-danger" role="alert">
+                        			<span th:if="${#fields.hasErrors('phoneNumber')}" >電話番号に入力できるのは数値だけです</span>
+                        			<span th:if="${#fields.hasErrors('memberCode') && #fields.hasErrors('phoneNumber')}" ><br></span>
+                        			<span th:if="${#fields.hasErrors('memberCode')}">社員番号に入力できるのは数値だけです</span>
+                        	
+                        </div>
+                                
+                            </form>
+                            <div th:if="${searchResults != null and #lists.isEmpty(searchResults)}"  th:object="${searchResults}">
+                  						<p class="alert alert-danger" role="alert">検索結果は0件です</p>
+                  				</div>
+                        </div>
+                        
+						
+                    </div>
+                </div>
+            </div>
+
+            <!-- 検索結果表示 -->
+            <div class="row mt-4" th:if="${not #lists.isEmpty(searchResults)}"  th:object="${searchResults}">
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h6 class="text-navy my-2">検索結果</h6>
+                        </div>
+                        <div class="card-body">
+                        		
+                  				<table id="member-table" class="table table-bordered">
+                  						<thead>
+                  								<tr>
+                  									<th>会員番号</th>
+                  									<th>氏名</th>
+                  									<th>住所</th>
+                  									<th>電話番号</th>
+                  								</tr>
+                  						</thead>
+                  						
+                  				<tbody>
+                  					<tr th:each="searchResults : ${searchResults}" th:object="${searchResults}">
+                  							<td><a  th:href="@{/search/excecute/{memberCode}(memberCode=${searchResults.memberCode})}" class="btn btn-link"  th:text="*{memberCode}"></a></td>
+                  							<td th:text="*{firstName + lastName}"></td>
+                  							<td th:text="*{address}"></td>
+                  							<td th:text="*{phoneNumber}"></td>
+                  					</tr>
+                  				</tbody>
+                  				</table>
+                  				
+                  				
+                        </div>
+       </div>
+       </div>
+       </div>				
+
+  </main>
+</body>
+</html>
